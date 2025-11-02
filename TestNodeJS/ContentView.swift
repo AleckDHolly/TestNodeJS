@@ -8,14 +8,36 @@
 import SwiftUI
 
 struct ContentView: View {
+    let starterAPI = StarterAPI.shared
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            List(starterAPI.products) { product in
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text(product.image)
+                        Text(product.image)
+                        Text(product.productName)
+                            .font(.title2)
+                            .fontWeight(.bold)
+                    }
+                    Text("From: \(product.from)")
+                        .fontWeight(.bold)
+                    Text("\(product.price)$")
+                        .fontWeight(.bold)
+                    Text("Quantity: \(product.quantity) per 📦")
+                        .fontWeight(.semibold)
+                    Text(product.description)
+                    
+                }
+                .listRowSeparator(.hidden)
+            }
+            .navigationTitle("Node Farm")
+            .listStyle(.plain)
+            .task {
+                starterAPI.fetchProducts()
+            }
         }
-        .padding()
     }
 }
 
